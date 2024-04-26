@@ -1,0 +1,11 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "nam2603",
+    "database": "rest",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false,
+    "timezone": "+07:00"
+  }
+}

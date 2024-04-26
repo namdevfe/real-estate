@@ -1,0 +1,8 @@
+## To create an empty project you will need to execute init command
+npx sequelize-cli init
+
+## Create model
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+
+## Running migrations
+npx sequelize-cli db:migrate

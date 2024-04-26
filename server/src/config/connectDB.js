@@ -6,8 +6,9 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.HOSTNAME,
-    dialect: "postgres",
+    dialect: process.env.DB_DIALECT,
     logging: false,
+    timezone: "+07:00",
   }
 );
 
