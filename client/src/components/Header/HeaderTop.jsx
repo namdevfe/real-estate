@@ -41,10 +41,11 @@ const HeaderTop = () => {
             </a>
           </li>
         </ul>
+        {/* Phone number */}
         <a
           href="tel:+84377813805"
           className="flex items-center gap-3 relative 
-              before:content-[''] before:w-[1px] before:h-10 before:bg-white before:absolute before:left-[-28px]"
+              before:content-[''] before:w-[1px] before:h-10 before:bg-white before:absolute before:left-[-28px] before:cursor-default"
         >
           <img src="/img/icon-phone.svg" alt="icon-phone" />
           <span className="text-sm">0377-813-805</span>
