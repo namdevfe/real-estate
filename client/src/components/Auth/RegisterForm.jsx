@@ -23,11 +23,12 @@ const RegisterForm = () => {
       const res = await authService.register(payload);
 
       // Thông báo đăng ký thành công
-      if (res.status === 201) {
+      if (res.statusCode === 201) {
         toast.success(res.data.message);
       }
     } catch (error) {
       // Thông báo đăng ký thất bại
+      console.log("🚀error---->", error);
       toast.error(error.response.data.message);
     }
   };

@@ -7,15 +7,14 @@ const register = async (req, res, next) => {
     // Xử lý logic register bên trong authService để thêm user vào db
     const response = await authService.register(req.body);
 
-    console.log("🚀response---->", response);
-
     // Nếu đăng ký thất bại thì throw error với custom error
     if (!response)
-      throw new ApiError(StatusCodes.BAD_REQUEST, "Create new failed");
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Registration failed");
 
     // Nếu thành công thì trả về data cho client
     return res.status(StatusCodes.CREATED).json({
-      message: "Success",
+      statusCode: StatusCodes.CREATED,
+      message: "Your account has been created new. Please login to the system",
     });
   } catch (error) {
     next(error);
