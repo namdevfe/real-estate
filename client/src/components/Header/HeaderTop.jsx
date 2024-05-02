@@ -1,8 +1,17 @@
+import clsx from "clsx";
 import React from "react";
+import { useLocation } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
+import { PATHS } from "~/constants/path";
 
 const HeaderTop = () => {
+  const { pathname } = useLocation();
   return (
-    <div className="h-header-top flex items-center justify-between">
+    <div
+      className={twMerge(
+        clsx("h-header-top flex items-center justify-between")
+      )}
+    >
       {/* Email address */}
       <a
         href="mailto:example@gmail.com"
