@@ -8,11 +8,12 @@ const axiosInstance = axios.create({
 // Thêm một bộ đón chặn request
 axiosInstance.interceptors.request.use(
   function (config) {
-    // Làm gì đó trước khi request dược gửi đi
+    // Get accessToken from localStorage
+    const accessToken = JSON.parse(localStorage.getItem("rest"))?.state?.token;
+    config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   },
   function (error) {
-    // Làm gì đó với lỗi request
     return Promise.reject(error);
   }
 );

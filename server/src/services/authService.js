@@ -47,4 +47,19 @@ const login = async (data) => {
   }
 };
 
-module.exports = { register, login };
+const getProfile = async (uid) => {
+  try {
+    const user = await db.User.findByPk(uid, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+
+    if (!user) throw new ApiError(StatusCodes.NOT_FOUND);
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { register, login, getProfile };

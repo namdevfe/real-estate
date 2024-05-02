@@ -28,7 +28,6 @@ const RegisterForm = () => {
       }
     } catch (error) {
       // Thông báo đăng ký thất bại
-      console.log("🚀error---->", error);
       toast.error(error.response.data.message);
     }
   };

@@ -62,9 +62,7 @@ const HeaderMiddle = () => {
 
         {/* Call to action */}
         {pathname === PATHS.HOME && !!token && (
-          <Button variant="outlined" onClick={showModal}>
-            Add Listing
-          </Button>
+          <Button variant="outlined">Add Listing</Button>
         )}
 
         {pathname === PATHS.HOME && !token && (

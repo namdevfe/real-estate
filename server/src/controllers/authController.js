@@ -25,11 +25,28 @@ const login = async (req, res, next) => {
   try {
     const response = await authService.login(req.body);
     return res.status(StatusCodes.OK).json({
-      accessToken: response.accessToken,
+      statusCode: StatusCodes.OK,
+      message: "Login is successfully",
+      data: {
+        accessToken: response.accessToken,
+      },
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { register, login };
+const getProfile = async (req, res, next) => {
+  try {
+    const { uid } = req.user;
+    const user = await authService.getProfile(uid);
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, getProfile };

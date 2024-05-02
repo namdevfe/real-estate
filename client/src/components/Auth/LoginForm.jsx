@@ -6,31 +6,42 @@ import Input from "~/components/Input";
 import Spinner from "~/components/Spinner";
 import { FIELDS, MESSAGE, REGEX } from "~/constants/validate";
 import authService from "~/services/authService";
+import useAppStore from "~/store/useAppStore";
+import useAuthStore from "~/store/useAuthStore";
 
 const LoginForm = () => {
+  // Inits
+  const setToken = useAuthStore((state) => state.setToken);
+  const handleCloseModal = useAppStore((state) => state.handleCloseModal);
   const {
     register,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm();
 
+  // Events handling
   const onSubmit = async (data) => {
     try {
-      // Chuẩn bị payload
+      // Prepare payload
       const payload = { ...data };
 
       // Call api login
       const res = await authService.login(payload);
 
-      if (res) {
-        toast.success("Login is successfully");
+      if (res?.statusCode === 200) {
+        // Successful notification
+        toast.success(res?.message);
+
+        // Get accessToken save to local storage using zustand/persist middleware
+        const { accessToken } = res?.data || {};
+        setToken(accessToken);
+
+        // Close modal when finished all
+        handleCloseModal();
       }
-
-      // Lấy accessToken lưu vào cookies
-
-      console.log("🚀res---->", res);
     } catch (error) {
-      toast.error("Login failed. Please try again.");
+      const errorMessage = error.response?.data?.message;
+      toast.error(errorMessage || "Login failed. Please try again.");
     }
   };
 

@@ -7,6 +7,9 @@ const authService = {
   login(payload = {}) {
     return axiosInstance.post("/auth/login", payload);
   },
+  getProfile() {
+    return axiosInstance.get("/auth/profile");
+  },
 };
 
 export default authService;

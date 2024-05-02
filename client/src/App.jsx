@@ -12,9 +12,17 @@ import ContactPage from "~/pages/public/ContactPage";
 import SearchPage from "~/pages/public/SearchPage";
 import Modal from "~/components/Modal";
 import useAppStore from "~/store/useAppStore";
+import useAuthStore from "~/store/useAuthStore";
+import { useEffect } from "react";
 
 function App() {
   const isShowModal = useAppStore((state) => state.isShowModal);
+  const token = useAuthStore((state) => state.token);
+  const getProfile = useAuthStore((state) => state.getProfile);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   return (
     <>
