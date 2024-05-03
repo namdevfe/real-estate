@@ -59,6 +59,14 @@ module.exports = {
           key: "id",
         },
       },
+      owner: {
+        type: Sequelize.UUID,
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+      },
       propertyTypeId: {
         type: Sequelize.UUID,
         allowNull: false,

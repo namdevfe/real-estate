@@ -27,10 +27,8 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       avatar: DataTypes.STRING,
-      role: {
-        type: DataTypes.ENUM,
-        values: ["ADMIN", "AGENT", "USER"],
-      },
+      refreshToken: DataTypes.STRING,
+      roleCode: DataTypes.STRING,
     },
     {
       sequelize,

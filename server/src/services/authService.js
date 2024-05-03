@@ -3,7 +3,9 @@ const db = require("../models");
 const ApiError = require("../utils/ApiError");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+const { where } = require("sequelize");
 
+// Register
 const register = async (data) => {
   const { phone } = data;
   try {
@@ -19,10 +21,11 @@ const register = async (data) => {
   }
 };
 
+// Login
 const login = async (data) => {
   try {
     const { phone, password } = data;
-    // Check số điện thoại
+    // Check phone
     const user = await db.User.findOne({
       where: { phone },
     });
@@ -30,23 +33,44 @@ const login = async (data) => {
     if (!user) throw new ApiError(StatusCodes.UNAUTHORIZED);
 
     // Check password
-    const checkedPassword = bcrypt.compareSync(password, user.password);
-    if (!checkedPassword) throw new ApiError(StatusCodes.UNAUTHORIZED);
+    const isCheckedPassword = bcrypt.compareSync(password, user.password);
+    if (!isCheckedPassword) throw new ApiError(StatusCodes.UNAUTHORIZED);
 
-    // Nếu password chính xác thì tạo accessToken và trả về phía controller
-    const token = jwt.sign(
-      { uid: user.id, role: user.role },
+    // Generate accessToken & refreshToken
+    const accessToken = jwt.sign(
+      { uid: user.id, roleCode: user.roleCode },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" }
+      { expiresIn: "5s" }
     );
+
+    const refreshToken = jwt.sign(
+      { uid: user.id },
+      process.env.JWT_SECRET_REFRESH_TOKEN,
+      { expiresIn: "10s" }
+    );
+
+    // Save refreshToken to database
+    await db.User.update(
+      {
+        refreshToken,
+      },
+      {
+        where: {
+          id: user.id,
+        },
+      }
+    );
+
     return {
-      accessToken: token,
+      accessToken,
+      refreshToken,
     };
   } catch (error) {
     throw error;
   }
 };
 
+// Get Profile
 const getProfile = async (uid) => {
   try {
     const user = await db.User.findByPk(uid, {
@@ -62,4 +86,38 @@ const getProfile = async (uid) => {
   }
 };
 
-module.exports = { register, login, getProfile };
+// Refresh Token
+const refreshToken = async (refreshToken) => {
+  try {
+    const user = await db.User.findOne({ where: { refreshToken } });
+    let token = {};
+    if (user) {
+      jwt.verify(refreshToken, process.env.JWT_SECRET_REFRESH_TOKEN, (err) => {
+        if (err) {
+          throw new ApiError(
+            StatusCodes.FORBIDDEN,
+            "Refresh token has expired"
+          );
+        } else {
+          // Generate new accessToken
+          const newAccessToken = jwt.sign(
+            { uid: user.id, roleCode: user.roleCode },
+            process.env.JWT_SECRET,
+            { expiresIn: "5s" }
+          );
+
+          token.accessToken = newAccessToken;
+          token.refreshToken = refreshToken;
+        }
+      });
+    } else {
+      throw new ApiError(StatusCodes.UNAUTHORIZED, "Refresh token invalid");
+    }
+
+    return Object.keys(token).length > 0 ? token : undefined;
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { register, login, getProfile, refreshToken };

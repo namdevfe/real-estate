@@ -25,10 +25,7 @@ const register = async (req, res, next) => {
       "string.empty": "Phone is not allowed to be empty",
       "string.trim": "Phone must not have leading or trailing whitespace",
     }),
-    role: Joi.string().required().messages({
-      "any.required": "Role is required",
-      "string.empty": "Role is not allowed to be empty",
-    }),
+    roleCode: Joi.string(),
   });
 
   try {
@@ -74,7 +71,28 @@ const login = async (req, res, next) => {
   }
 };
 
+const refreshToken = async (req, res, next) => {
+  const correctCondition = Joi.object({
+    refreshToken: Joi.string().required().messages({
+      "any.required": "Refresh token is required",
+      "string.empty": "Refresh token is not allowed to be empty",
+    }),
+  });
+  try {
+    await correctCondition.validateAsync(req.body, { abortEarly: false });
+    next();
+  } catch (error) {
+    const errorMessage = new Error(error).message;
+    const customError = new ApiError(
+      StatusCodes.UNPROCESSABLE_ENTITY,
+      errorMessage
+    );
+    next(customError);
+  }
+};
+
 module.exports = {
   register,
   login,
+  refreshToken,
 };

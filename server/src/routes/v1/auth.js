@@ -8,5 +8,10 @@ const router = express.Router();
 router.post("/register", authValidation.register, authController.register);
 router.post("/login", authValidation.login, authController.login);
 router.get("/profile", verifyToken, authController.getProfile);
+router.put(
+  "/refresh-token",
+  authValidation.refreshToken,
+  authController.refreshToken
+);
 
 module.exports = router;

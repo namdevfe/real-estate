@@ -11,7 +11,13 @@ const verifyToken = (req, res, next) => {
     // Nếu token hợp lệ thì tiến hành decode token
     const accessToken = req.headers.authorization?.split(" ")?.[1];
     jwt.verify(accessToken, process.env.JWT_SECRET, (err, decode) => {
-      if (err) throw new ApiError(StatusCodes.UNAUTHORIZED);
+      if (err) {
+        const isTokenExpired = err instanceof jwt.TokenExpiredError;
+        if (!isTokenExpired)
+          throw new ApiError(StatusCodes.UNAUTHORIZED, "Token invalid");
+        if (isTokenExpired)
+          throw new ApiError(StatusCodes.UNAUTHORIZED, "Token has expired");
+      }
       req.user = decode;
     });
     next();

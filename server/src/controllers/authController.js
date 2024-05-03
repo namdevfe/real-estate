@@ -4,14 +4,11 @@ const ApiError = require("../utils/ApiError");
 
 const register = async (req, res, next) => {
   try {
-    // Xử lý logic register bên trong authService để thêm user vào db
     const response = await authService.register(req.body);
 
-    // Nếu đăng ký thất bại thì throw error với custom error
     if (!response)
       throw new ApiError(StatusCodes.BAD_REQUEST, "Registration failed");
 
-    // Nếu thành công thì trả về data cho client
     return res.status(StatusCodes.CREATED).json({
       statusCode: StatusCodes.CREATED,
       message: "Your account has been created new. Please login to the system",
@@ -29,6 +26,7 @@ const login = async (req, res, next) => {
       message: "Login is successfully",
       data: {
         accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
       },
     });
   } catch (error) {
@@ -49,4 +47,17 @@ const getProfile = async (req, res, next) => {
   }
 };
 
-module.exports = { register, login, getProfile };
+const refreshToken = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body;
+    const token = await authService.refreshToken(refreshToken);
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      data: token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { register, login, getProfile, refreshToken };

@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       propertySize: DataTypes.FLOAT,
       propertyTypeId: DataTypes.UUID,
       postedBy: DataTypes.UUID,
+      owner: DataTypes.UUID,
     },
     {
       sequelize,

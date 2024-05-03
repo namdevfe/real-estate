@@ -32,6 +32,9 @@ module.exports = {
       avatar: {
         type: Sequelize.STRING,
       },
+      refreshToken: {
+        type: Sequelize.STRING,
+      },
       roleCode: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -39,6 +42,7 @@ module.exports = {
           model: "Roles",
           key: "code",
         },
+        defaultValue: "R3",
       },
       createdAt: {
         allowNull: false,
