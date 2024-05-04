@@ -16,4 +16,18 @@ router.post(
 // Get property type - method[GET]
 router.get("/", propertyTypeController.getPropertyTypes);
 
+// Update property type - method[PUT]
+router.put(
+  "/:id",
+  [verifyToken, isAdmin, propertyTypeValidation.updatePropertyType],
+  propertyTypeController.updatePropertyType
+);
+
+// Delete property type - method[DELETE]
+router.delete(
+  "/:id",
+  [verifyToken, isAdmin],
+  propertyTypeController.deletePropertyType
+);
+
 module.exports = router;

@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const db = require("../models");
 const ApiError = require("../utils/ApiError");
-const { Op, Sequelize } = require("sequelize");
+const { Op, Sequelize, where } = require("sequelize");
 
 // Create new property type
 const createPropertyType = async (data) => {
@@ -93,7 +93,30 @@ const getPropertyTypes = async (queryData) => {
   }
 };
 
+// Update property type
+const updatePropertyType = async (id, data) => {
+  try {
+    const res = await db.PropertyType.update(data, { where: { id } });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deletePropertyType = async (id) => {
+  try {
+    const res = await db.PropertyType.destroy({
+      where: { id },
+    });
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createPropertyType,
   getPropertyTypes,
+  updatePropertyType,
+  deletePropertyType,
 };

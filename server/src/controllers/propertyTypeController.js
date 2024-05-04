@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const propertyTypeService = require("../services/propertyTypeService");
+const ApiError = require("../utils/ApiError");
 
 // CREATE
 const createPropertyType = async (req, res, next) => {
@@ -24,13 +25,48 @@ const getPropertyTypes = async (req, res, next) => {
       statusCode: StatusCodes.OK,
       propertyTypes,
     });
+  } catch (error) {
+    next(error);
+  }
+};
 
-    // // If type === 'ALL' is get all
-    // if (type === "ALL") {
+// UPDATE
+const updatePropertyType = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (Object.keys(req.body).length === 0)
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Must have least 1 agrument");
 
-    // } else {
-    //   return res.send("Chưa làm gì cả");
-    // }
+    const [isUpdated] = await propertyTypeService.updatePropertyType(
+      id,
+      req.body
+    );
+
+    // Update fail
+    if (isUpdated === 0)
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Update failed");
+
+    // Update success
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      message: "Updated successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// DELETE
+const deletePropertyType = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const isDeleted = await propertyTypeService.deletePropertyType(id);
+    if (!isDeleted)
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Delete failed");
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      message: "Deleted successfully ",
+    });
   } catch (error) {
     next(error);
   }
@@ -39,4 +75,6 @@ const getPropertyTypes = async (req, res, next) => {
 module.exports = {
   createPropertyType,
   getPropertyTypes,
+  updatePropertyType,
+  deletePropertyType,
 };
