@@ -27,7 +27,7 @@ const createPropertyType = async (data) => {
 // Get property types
 const getPropertyTypes = async (queryData) => {
   try {
-    const { type, fields, name, ...query } = queryData || {};
+    const { limit, fields, name, page, sort, ...query } = queryData || {};
     const options = {};
 
     // Limit fields
@@ -55,14 +55,39 @@ const getPropertyTypes = async (queryData) => {
       );
     }
 
+    // Sorting
+    // Syntax: order: [['name', 'ASC']]
+    if (sort) {
+      const order = sort
+        .split(",")
+        .map((field) =>
+          field.startsWith("-")
+            ? [field.replace("-", ""), "DESC"]
+            : [field, "ASC"]
+        );
+
+      options.order = order;
+    }
+
     // Get all
-    if (type?.toUpperCase() === "ALL") {
+    if (!limit) {
       const propertyTypes = await db.PropertyType.findAll({
         where: query,
         ...options,
       });
       return propertyTypes?.length > 0 ? propertyTypes : [];
     }
+
+    // Pagination
+    const pageCurrent = Number(page) || 1;
+    const offset = (pageCurrent - 1) * limit;
+    if (offset) options.offset = offset;
+    options.limit = limit;
+    const propertyTypes = await db.PropertyType.findAndCountAll({
+      where: query,
+      ...options,
+    });
+    return propertyTypes;
   } catch (error) {
     throw error;
   }
