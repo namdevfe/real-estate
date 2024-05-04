@@ -40,13 +40,13 @@ const login = async (data) => {
     const accessToken = jwt.sign(
       { uid: user.id, roleCode: user.roleCode },
       process.env.JWT_SECRET,
-      { expiresIn: "5s" }
+      { expiresIn: "5d" }
     );
 
     const refreshToken = jwt.sign(
       { uid: user.id },
       process.env.JWT_SECRET_REFRESH_TOKEN,
-      { expiresIn: "10s" }
+      { expiresIn: "15d" }
     );
 
     // Save refreshToken to database
