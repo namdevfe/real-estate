@@ -27,6 +27,9 @@ export default {
       fontSize: {
         h1: ["3.25rem", "4.5rem"],
       },
+      width: {
+        sidebar: "260px",
+      },
       height: {
         "header-top": "85px",
         "header-middle": "85px",

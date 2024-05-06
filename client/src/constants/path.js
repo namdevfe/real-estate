@@ -1,4 +1,8 @@
+const ADMIN_PATH = "/admin";
+const PROPERTY_TYPE_PATH = ADMIN_PATH + "/property-type";
+
 export const PATHS = {
+  // Public path
   HOME: "/",
   ABOUT_US: "/about-us",
   OUR_AGENTS: "/our-agents",
@@ -7,5 +11,12 @@ export const PATHS = {
   BLOG: "/blog",
   CONTACT_US: "/contact-us",
   SEARCH: "/search",
+
+  // Admin path
+  DASHBOARD: ADMIN_PATH,
+  CREATE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/create",
+  MANAGE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/manage",
+
+  // Page not found
   NOT_FOUND: "*",
 };
