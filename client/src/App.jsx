@@ -21,11 +21,10 @@ import ManagePropertyTypePage from "~/pages/admin/ManagePropertyTypePage";
 
 function App() {
   const isShowModal = useAppStore((state) => state.isShowModal);
-  const token = useAuthStore((state) => state.token);
-  const getProfile = useAuthStore((state) => state.getProfile);
+  const getRoles = useAuthStore((state) => state.getRoles);
 
   useEffect(() => {
-    getProfile();
+    getRoles();
   }, []);
 
   return (

@@ -5,11 +5,22 @@ import Button from "~/components/Button";
 import Input from "~/components/Input";
 import Radio from "~/components/Radio";
 import Spinner from "~/components/Spinner";
-import { ACCOUNT_OPTIONS } from "~/constants/general";
+import { ROLES } from "~/constants/general";
 import { FIELDS, MESSAGE, REGEX } from "~/constants/validate";
 import authService from "~/services/authService";
+import useAuthStore from "~/store/useAuthStore";
 
 const RegisterForm = () => {
+  const roles = useAuthStore((state) => state.roles);
+  const roleOptions = roles
+    ?.filter((role) => role?.code !== ROLES.ADMIN && role?.code !== ROLES.USER)
+    ?.map((item) => ({
+      label: item?.value,
+      value: item?.code,
+    }));
+
+  console.log("🚀roleOptions---->", roleOptions);
+
   const {
     register,
     formState: { errors, isSubmitting },
@@ -17,18 +28,19 @@ const RegisterForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    const payload = { ...data };
     try {
+      const payload = { ...data };
       // Call Api Register
       const res = await authService.register(payload);
 
       // Thông báo đăng ký thành công
       if (res.statusCode === 201) {
-        toast.success(res.data.message);
+        toast.success(res?.message);
       }
     } catch (error) {
       // Thông báo đăng ký thất bại
-      toast.error(error.response.data.message);
+      console.log("🚀error---->", error);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -77,10 +89,8 @@ const RegisterForm = () => {
         <Radio
           containerClassName="mt-4"
           label="Type account"
-          options={ACCOUNT_OPTIONS}
-          {...register(FIELDS.ROLE, {
-            required: MESSAGE.ROLE,
-          })}
+          options={roleOptions}
+          {...register(FIELDS.ROLE)}
           error={errors?.role?.message}
         />
 

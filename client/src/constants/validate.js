@@ -3,7 +3,7 @@ export const FIELDS = {
   PASSWORD: "password",
   NAME: "name",
   PHONE: "phone",
-  ROLE: "role",
+  ROLE: "roleCode",
 };
 
 export const MESSAGE = {

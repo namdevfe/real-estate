@@ -14,6 +14,7 @@ const HeaderMiddle = () => {
   const { pathname } = useLocation();
   const handleShowModal = useAppStore((state) => state.handleShowModal);
   const token = useAuthStore((state) => state.token);
+  const profile = useAuthStore((state) => state.profile);
 
   const showModal = (e) => {
     handleShowModal(<LoginForm />);
@@ -61,11 +62,11 @@ const HeaderMiddle = () => {
         </ul>
 
         {/* Call to action */}
-        {pathname === PATHS.HOME && !!token && (
+        {pathname === PATHS.HOME && !!profile && (
           <Button variant="outlined">Add Listing</Button>
         )}
 
-        {pathname === PATHS.HOME && !token && (
+        {pathname === PATHS.HOME && !profile && (
           <Button variant="outlined" onClick={showModal}>
             Login
           </Button>

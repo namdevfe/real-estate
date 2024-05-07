@@ -3,13 +3,9 @@ export const MODAL_TYPES = {
   REGISTER: "register",
 };
 
-export const ACCOUNT_OPTIONS = [
-  {
-    label: "User",
-    value: "USER",
-  },
-  {
-    label: "Agent",
-    value: "AGENT",
-  },
-];
+export const ROLES = {
+  ADMIN: "R1",
+  OWNER: "R2",
+  AGENT: "R3",
+  USER: "R4",
+};

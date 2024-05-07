@@ -10,6 +10,8 @@ import useAppStore from "~/store/useAppStore";
 import useAuthStore from "~/store/useAuthStore";
 
 const LoginForm = () => {
+  const getProfile = useAuthStore((state) => state.getProfile);
+
   // Inits
   const setToken = useAuthStore((state) => state.setToken);
   const handleCloseModal = useAppStore((state) => state.handleCloseModal);
@@ -33,8 +35,11 @@ const LoginForm = () => {
         toast.success(res?.message);
 
         // Get accessToken save to local storage using zustand/persist middleware
-        const { accessToken } = res?.data || {};
-        setToken(accessToken);
+        const token = res?.data || {};
+        setToken(token);
+
+        // Get profile
+        getProfile();
 
         // Close modal when finished all
         handleCloseModal();
