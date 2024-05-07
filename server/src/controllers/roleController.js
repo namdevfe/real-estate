@@ -13,4 +13,16 @@ const createRole = async (req, res, next) => {
   }
 };
 
-module.exports = { createRole };
+const getRoles = async (req, res, next) => {
+  try {
+    const rolesRes = await roleService.getRoles();
+    return res.status(StatusCodes.OK).json({
+      statusCode: StatusCodes.OK,
+      roles: rolesRes,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createRole, getRoles };

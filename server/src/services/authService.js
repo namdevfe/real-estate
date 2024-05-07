@@ -3,18 +3,42 @@ const db = require("../models");
 const ApiError = require("../utils/ApiError");
 const bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-const { where } = require("sequelize");
 
 // Register
 const register = async (data) => {
-  const { phone } = data;
   try {
+    const { phone, password, name } = data;
     const createdUser = await db.User.findOrCreate({
       where: { phone },
-      defaults: data,
+      defaults: {
+        phone,
+        password,
+        name,
+      },
     });
 
-    // Trả về data cho authController
+    const userId = createdUser[0]?.id;
+    if (createdUser[1] && userId) {
+      // Add roles
+      const roleCodes = ["R4"]; // Default role: 'USER'
+
+      // Nếu client có truyển roleCode lên thì tạo thêm role cho user
+      if (data?.roleCode) {
+        roleCodes.push(data.roleCode);
+        const roleCodesBulk = roleCodes.map((roleCode) => ({
+          userId,
+          roleCode,
+        }));
+
+        const updatedUserRole = await db.UserRole.bulkCreate(roleCodesBulk);
+
+        // Nếu mà update role vào bảng UserRoles thất bại thì xóa đi User đã được ghi vào db
+        if (!updatedUserRole) {
+          await db.User.destroy({ where: { id: userId } });
+        }
+      }
+    }
+
     return createdUser[1];
   } catch (error) {
     throw error;
@@ -75,8 +99,23 @@ const getProfile = async (uid) => {
   try {
     const user = await db.User.findByPk(uid, {
       attributes: {
-        exclude: ["password"],
+        exclude: ["password", "refreshToken"],
       },
+      include: [
+        {
+          model: db.UserRole,
+          as: "userRoles",
+          attributes: ["roleCode"],
+
+          include: [
+            {
+              model: db.Role,
+              as: "roleValue",
+              attributes: ["value"],
+            },
+          ],
+        },
+      ],
     });
 
     if (!user) throw new ApiError(StatusCodes.NOT_FOUND);

@@ -4,6 +4,7 @@ const ApiError = require("../utils/ApiError");
 
 const register = async (req, res, next) => {
   try {
+    // const { name, password, phone } = req.body;
     const response = await authService.register(req.body);
 
     if (!response)

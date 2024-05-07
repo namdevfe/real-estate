@@ -35,15 +35,6 @@ module.exports = {
       refreshToken: {
         type: Sequelize.STRING,
       },
-      roleCode: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-          model: "Roles",
-          key: "code",
-        },
-        defaultValue: "R3",
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

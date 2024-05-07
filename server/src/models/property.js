@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       price: DataTypes.FLOAT,
       status: {
         type: DataTypes.ENUM,
-        values: ["PENDING", "CANCEL", "APPROVE"],
+        values: ["PENDING", "CANCEL", "APPROVED"],
       },
       images: {
         type: DataTypes.TEXT,

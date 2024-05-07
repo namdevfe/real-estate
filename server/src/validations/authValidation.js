@@ -25,7 +25,7 @@ const register = async (req, res, next) => {
       "string.empty": "Phone is not allowed to be empty",
       "string.trim": "Phone must not have leading or trailing whitespace",
     }),
-    roleCode: Joi.string(),
+    roleCode: Joi.string().allow(null, ""),
   });
 
   try {

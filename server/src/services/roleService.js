@@ -16,6 +16,20 @@ const createRole = async (data) => {
   }
 };
 
+const getRoles = async () => {
+  try {
+    const roles = db.Role.findAll({
+      attributes: ["code", "value"],
+    });
+    if (roles.length === 0)
+      throw new ApiError(StatusCodes.BAD_REQUEST, "Cannot get roles");
+    return roles;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   createRole,
+  getRoles,
 };
