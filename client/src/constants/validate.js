@@ -4,6 +4,9 @@ export const FIELDS = {
   NAME: "name",
   PHONE: "phone",
   ROLE: "roleCode",
+  PROPERTY_TYPE_NAME: "name",
+  PROPERTY_TYPE_DESCRIPTION: "description",
+  PROPERTY_TYPE_IMAGE: "image",
 };
 
 export const MESSAGE = {
@@ -11,7 +14,9 @@ export const MESSAGE = {
   PASSWORD: "Password is required",
   NAME: "Name is required",
   PHONE: "Phone is required",
-  ROLE: "Role is required",
+  PROPERTY_TYPE_NAME: "Property Type Name is required",
+  PROPERTY_TYPE_DESCRIPTION: "Property Type Description is required",
+  PROPERTY_TYPE_IMAGE: "Property Type Image is required",
 };
 
 export const REGEX = {

@@ -7,9 +7,16 @@ const propertyTypeController = require("../../controllers/propertyTypeController
 const router = express.Router();
 
 // Create property type - method[POST]
+// router.post(
+//   "/",
+//   [verifyToken, isAdmin, propertyTypeValidation.createPropertyType],
+//   propertyTypeController.createPropertyType
+// );
+
+// Test
 router.post(
   "/",
-  [verifyToken, isAdmin, propertyTypeValidation.createPropertyType],
+  [verifyToken, propertyTypeValidation.createPropertyType],
   propertyTypeController.createPropertyType
 );
 

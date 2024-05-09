@@ -34,7 +34,7 @@ const Sidebar = () => {
                   to={menu.link}
                   className={({ isActive }) =>
                     clsx(
-                      "flex items-center gap-3 text-white capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded",
+                      "flex items-center gap-3 text-white text-nowrap capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded",
                       isActive && "bg-primary-500"
                     )
                   }
@@ -50,7 +50,7 @@ const Sidebar = () => {
               <>
                 <li>
                   <div
-                    className="flex items-center justify-between text-white capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded cursor-pointer"
+                    className="flex items-center justify-between text-white text-nowrap capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded cursor-pointer"
                     onClick={toggleDropdown}
                   >
                     <span className="flex items-center gap-2">
@@ -76,7 +76,7 @@ const Sidebar = () => {
                         to={subMenu.link}
                         className={({ isActive }) =>
                           clsx(
-                            "flex items-center gap-3 text-white capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded",
+                            "flex items-center gap-3 text-white text-nowrap capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded",
                             isActive && "bg-primary-500"
                           )
                         }
