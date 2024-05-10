@@ -36,6 +36,7 @@ const Radio = (
                 inputClassName
               )
             )}
+            defaultChecked={defaultValue === option?.value}
             {...inputProps}
           />
           <label htmlFor={option?.value} className="cursor-pointer">
