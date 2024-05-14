@@ -18,10 +18,17 @@ import AdminLayout from "~/layouts/AdminLayout";
 import DashBoardPage from "~/pages/admin/DashBoardPage";
 import CreatePropertyTypePage from "~/pages/admin/CreatePropertyTypePage";
 import ManagePropertyTypePage from "~/pages/admin/ManagePropertyTypePage";
+import ProfilePage from "~/pages/user/ProfilePage";
 
 function App() {
   const isShowModal = useAppStore((state) => state.isShowModal);
-  const getRoles = useAuthStore((state) => state.getRoles);
+  const { getRoles, getProfile, token } = useAuthStore();
+
+  useEffect(() => {
+    if (token?.accessToken) {
+      getProfile();
+    }
+  }, []);
 
   useEffect(() => {
     getRoles();
@@ -41,7 +48,7 @@ function App() {
           <Route path={PATHS.BLOG} element={<BlogPage />} />
           <Route path={PATHS.CONTACT_US} element={<ContactPage />} />
           <Route path={PATHS.SEARCH} element={<SearchPage />} />
-          <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
+          <Route path={PATHS.PROFILE} element={<ProfilePage />} />
         </Route>
 
         {/* Admin */}
@@ -58,6 +65,9 @@ function App() {
 
           <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
         </Route>
+
+        {/* Not found */}
+        <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
       </Routes>
     </>
   );

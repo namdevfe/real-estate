@@ -67,3 +67,30 @@ export const ADMIN_MENUS = [
     ],
   },
 ];
+
+export const ACCOUNT_OPTIONS = [
+  {
+    id: 1,
+    name: "Admin dashboard",
+    code: "R1",
+    path: PATHS.DASHBOARD,
+  },
+  {
+    id: 2,
+    name: "Owner dashboard",
+    code: "R2",
+    path: PATHS.OWNER_DASHBOARD,
+  },
+  {
+    id: 3,
+    name: "Agent dashboard",
+    code: "R3",
+    path: PATHS.AGENT_DASHBOARD,
+  },
+  {
+    id: 4,
+    name: "Profile",
+    code: "R4",
+    path: PATHS.PROFILE,
+  },
+];

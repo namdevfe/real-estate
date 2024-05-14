@@ -10,6 +10,9 @@ const authService = {
   getProfile() {
     return axiosInstance.get("/auth/profile");
   },
+  refreshToken(payload = {}) {
+    return axiosInstance.put("/auth/refresh-token", payload);
+  },
 };
 
 export default authService;

@@ -17,6 +17,15 @@ export const PATHS = {
   CREATE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/create",
   MANAGE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/manage",
 
+  // User path
+  PROFILE: "/profile",
+
+  // Owner path
+  OWNER_DASHBOARD: "/owner-dashboard",
+
+  // Agent path
+  AGENT_DASHBOARD: "/agent-dashboard",
+
   // Page not found
   NOT_FOUND: "*",
 };

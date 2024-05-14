@@ -15,7 +15,7 @@ const useAuthStore = create(
         if (res?.data) {
           set(() => ({ profile: res?.data }));
         } else {
-          set(() => ({ profile: null }));
+          set(() => ({ profile: null, token: null }));
         }
       },
       getRoles: async () => {
@@ -26,6 +26,7 @@ const useAuthStore = create(
           set(() => ({ roles: null }));
         }
       },
+      handleLogout: () => set(() => ({ token: null, profile: null })),
     }),
     {
       name: "rest",
