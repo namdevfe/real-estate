@@ -1,10 +1,8 @@
 import clsx from "clsx";
-import React from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
-import Button from "~/components/Button";
 import LoginForm from "~/components/Auth";
-import { MODAL_TYPES } from "~/constants/general";
+import Button from "~/components/Button";
 import { NAVIGATIONS } from "~/constants/navigation";
 import { PATHS } from "~/constants/path";
 import useAppStore from "~/store/useAppStore";
@@ -13,7 +11,6 @@ import useAuthStore from "~/store/useAuthStore";
 const HeaderMiddle = () => {
   const { pathname } = useLocation();
   const handleShowModal = useAppStore((state) => state.handleShowModal);
-  const token = useAuthStore((state) => state.token);
   const profile = useAuthStore((state) => state.profile);
 
   const showModal = (e) => {

@@ -12,7 +12,7 @@ const Auth = () => {
   };
   return (
     <div
-      className="min-w-[448px] max-w-[448px] bg-white text-primary-900 px-2 py-6 rounded-md relative"
+      className="min-w-[448px] max-w-[448px] bg-white text-primary-900 px-2 py-6 rounded-md relative overflow-hidden"
       onClick={(e) => e.stopPropagation()}
     >
       <h2 className="text-2xl font-bold text-center">Wellcome to REST</h2>
@@ -43,7 +43,6 @@ const Auth = () => {
         </li>
       </ul>
 
-      {/* Login/Register form */}
       {modalType === MODAL_TYPES.LOGIN && <LoginForm />}
       {modalType === MODAL_TYPES.REGISTER && <RegisterForm />}
     </div>

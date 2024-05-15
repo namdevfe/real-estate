@@ -1,15 +1,14 @@
 import clsx from "clsx";
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ADMIN_MENUS, MENU_TYPES } from "~/constants/navigation";
 import { PATHS } from "~/constants/path";
 
 const Sidebar = () => {
-  const [isToggleDropdown, setIsToggleDropdown] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState();
 
-  // Events handling
-  const toggleDropdown = () => {
-    setIsToggleDropdown(!isToggleDropdown);
+  const _onMenuChange = (menuId) => {
+    setSelectedMenu(menuId);
   };
 
   return (
@@ -24,8 +23,8 @@ const Sidebar = () => {
 
       {/* Menus */}
       <ul className="flex flex-col gap-2">
-        {ADMIN_MENUS.map((menu) => (
-          <React.Fragment key={menu.id}>
+        {ADMIN_MENUS.map((menu, index) => (
+          <Fragment key={menu.id}>
             {/* TYPE SINGLE */}
             {menu.type === MENU_TYPES.SINGLE && (
               <li>
@@ -51,7 +50,7 @@ const Sidebar = () => {
                 <li>
                   <div
                     className="flex items-center justify-between text-white text-nowrap capitalize transition-colors duration-300 hover:bg-primary-500 py-3 px-6 rounded cursor-pointer"
-                    onClick={toggleDropdown}
+                    onClick={() => _onMenuChange(menu.id)}
                   >
                     <span className="flex items-center gap-2">
                       <img src={menu.icon} alt="" />
@@ -63,12 +62,12 @@ const Sidebar = () => {
                       alt="icon-arrow-down"
                       className={clsx(
                         "transition-transform duration-300",
-                        isToggleDropdown && "rotate-180"
+                        selectedMenu === menu.id && "rotate-180"
                       )}
                     />
                   </div>
                 </li>
-                {isToggleDropdown &&
+                {selectedMenu === menu.id &&
                   menu.subMenus.map((subMenu) => (
                     <li key={subMenu.id}>
                       <NavLink
@@ -87,7 +86,7 @@ const Sidebar = () => {
                   ))}
               </>
             )}
-          </React.Fragment>
+          </Fragment>
         ))}
       </ul>
     </aside>

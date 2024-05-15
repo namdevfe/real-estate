@@ -8,6 +8,7 @@ import { FIELDS, MESSAGE, REGEX } from "~/constants/validate";
 import authService from "~/services/authService";
 import useAppStore from "~/store/useAppStore";
 import useAuthStore from "~/store/useAuthStore";
+import { IoCloseOutline } from "react-icons/io5";
 
 const LoginForm = () => {
   const getProfile = useAuthStore((state) => state.getProfile);
@@ -51,38 +52,47 @@ const LoginForm = () => {
   };
 
   return (
-    <form className="p-4" onSubmit={handleSubmit(onSubmit)}>
-      {isSubmitting && (
-        <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 w-full h-full flex items-center justify-center bg-overlay-white-60">
-          <Spinner />
-        </div>
-      )}
-      <Input
-        label="Phone"
-        id="phone"
-        placeholder="Enter your phone"
-        {...register(FIELDS.PHONE, {
-          required: MESSAGE.PHONE,
-          pattern: { value: REGEX.PHONE.value, message: REGEX.PHONE.message },
-        })}
-        error={errors?.phone?.message}
-      />
-      <Input
-        type="password"
-        label="Password"
-        id="password"
-        placeholder="Enter your password"
-        containerClassName="mt-4"
-        {...register(FIELDS.PASSWORD, {
-          required: MESSAGE.PASSWORD,
-        })}
-      />
+    <>
+      {/* Close button */}
+      <div className="absolute right-0 top-0 bg-primary-500 text-white flex items-center justify-center cursor-pointer p-1">
+        <IoCloseOutline size={24} onClick={handleCloseModal} />
+      </div>
 
-      {/* Submit button */}
-      <Button type="submit" className="py-2 mt-6 w-full">
-        Login
-      </Button>
-    </form>
+      {/* Login form */}
+      <form className="p-4" onSubmit={handleSubmit(onSubmit)}>
+        {isSubmitting && (
+          <div className="absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 w-full h-full flex items-center justify-center bg-overlay-white-60">
+            <Spinner />
+          </div>
+        )}
+
+        <Input
+          label="Phone"
+          id="phone"
+          placeholder="Enter your phone"
+          {...register(FIELDS.PHONE, {
+            required: MESSAGE.PHONE,
+            pattern: { value: REGEX.PHONE.value, message: REGEX.PHONE.message },
+          })}
+          error={errors?.phone?.message}
+        />
+        <Input
+          type="password"
+          label="Password"
+          id="password"
+          placeholder="Enter your password"
+          containerClassName="mt-4"
+          {...register(FIELDS.PASSWORD, {
+            required: MESSAGE.PASSWORD,
+          })}
+        />
+
+        {/* Submit button */}
+        <Button type="submit" className="py-2 mt-6 w-full">
+          Login
+        </Button>
+      </form>
+    </>
   );
 };
 

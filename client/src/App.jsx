@@ -1,24 +1,26 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import PublicLayout from "./layouts/PublicLayout";
-import HomePage from "./pages/public/HomePage";
-import { PATHS } from "./constants/path";
-import NotFoundPage from "~/pages/public/NotFoundPage";
+import Modal from "~/components/Modal";
+import PrivateRoute from "~/components/PrivateRoute";
+import { ROLES } from "~/constants/general";
+import AdminLayout from "~/layouts/AdminLayout";
+import CreatePropertyTypePage from "~/pages/admin/CreatePropertyTypePage";
+import DashBoardPage from "~/pages/admin/DashBoardPage";
+import ManagePropertyTypePage from "~/pages/admin/ManagePropertyTypePage";
 import AboutPage from "~/pages/public/AboutPage";
-import OurAgentsPage from "~/pages/public/OurAgentsPage";
-import PropertiesPage from "~/pages/public/PropertiesPage";
-import GalleryPage from "~/pages/public/GalleryPage";
 import BlogPage from "~/pages/public/BlogPage";
 import ContactPage from "~/pages/public/ContactPage";
+import GalleryPage from "~/pages/public/GalleryPage";
+import NotFoundPage from "~/pages/public/NotFoundPage";
+import OurAgentsPage from "~/pages/public/OurAgentsPage";
+import PropertiesPage from "~/pages/public/PropertiesPage";
 import SearchPage from "~/pages/public/SearchPage";
-import Modal from "~/components/Modal";
+import ProfilePage from "~/pages/user/ProfilePage";
 import useAppStore from "~/store/useAppStore";
 import useAuthStore from "~/store/useAuthStore";
-import { useEffect } from "react";
-import AdminLayout from "~/layouts/AdminLayout";
-import DashBoardPage from "~/pages/admin/DashBoardPage";
-import CreatePropertyTypePage from "~/pages/admin/CreatePropertyTypePage";
-import ManagePropertyTypePage from "~/pages/admin/ManagePropertyTypePage";
-import ProfilePage from "~/pages/user/ProfilePage";
+import { PATHS } from "./constants/path";
+import PublicLayout from "./layouts/PublicLayout";
+import HomePage from "./pages/public/HomePage";
 
 function App() {
   const isShowModal = useAppStore((state) => state.isShowModal);
@@ -38,7 +40,7 @@ function App() {
     <>
       {isShowModal && <Modal />}
       <Routes>
-        {/* Public */}
+        {/* Public routes */}
         <Route path={PATHS.HOME} element={<PublicLayout />}>
           <Route index element={<HomePage />} />
           <Route path={PATHS.ABOUT_US} element={<AboutPage />} />
@@ -48,22 +50,32 @@ function App() {
           <Route path={PATHS.BLOG} element={<BlogPage />} />
           <Route path={PATHS.CONTACT_US} element={<ContactPage />} />
           <Route path={PATHS.SEARCH} element={<SearchPage />} />
-          <Route path={PATHS.PROFILE} element={<ProfilePage />} />
+
+          {/* Public private routes */}
+          <Route element={<PrivateRoute redirectPath={PATHS.HOME} />}>
+            <Route path={PATHS.PROFILE} element={<ProfilePage />} />
+          </Route>
         </Route>
 
-        {/* Admin */}
-        <Route path={PATHS.DASHBOARD} element={<AdminLayout />}>
-          <Route index element={<DashBoardPage />} />
-          <Route
-            path={PATHS.CREATE_PROPERTY_TYPE}
-            element={<CreatePropertyTypePage />}
-          />
-          <Route
-            path={PATHS.MANAGE_PROPERTY_TYPE}
-            element={<ManagePropertyTypePage />}
-          />
+        {/* Admin routes */}
+        <Route
+          element={
+            <PrivateRoute redirectPath={PATHS.HOME} roles={[ROLES.ADMIN]} />
+          }
+        >
+          <Route path={PATHS.DASHBOARD} element={<AdminLayout />}>
+            <Route index element={<DashBoardPage />} />
+            <Route
+              path={PATHS.CREATE_PROPERTY_TYPE}
+              element={<CreatePropertyTypePage />}
+            />
+            <Route
+              path={PATHS.MANAGE_PROPERTY_TYPE}
+              element={<ManagePropertyTypePage />}
+            />
 
-          <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
+            <Route path={PATHS.NOT_FOUND} element={<NotFoundPage />} />
+          </Route>
         </Route>
 
         {/* Not found */}

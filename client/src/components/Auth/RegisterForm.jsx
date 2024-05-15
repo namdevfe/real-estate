@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import React, { useState } from "react";
 import { set, useForm } from "react-hook-form";
+import { IoCloseOutline } from "react-icons/io5";
 import { toast } from "react-toastify";
 import Button from "~/components/Button";
 import Input from "~/components/Input";
@@ -12,10 +13,12 @@ import auth from "~/config/fireBaseConfig";
 import { ROLES } from "~/constants/general";
 import { FIELDS, MESSAGE, REGEX } from "~/constants/validate";
 import authService from "~/services/authService";
+import useAppStore from "~/store/useAppStore";
 import useAuthStore from "~/store/useAuthStore";
 
 const RegisterForm = () => {
   const roles = useAuthStore((state) => state.roles);
+  const handleCloseModal = useAppStore((state) => state.handleCloseModal);
   const roleOptions = roles
     ?.filter((role) => role?.code !== ROLES.ADMIN)
     ?.map((item) => ({
@@ -104,6 +107,12 @@ const RegisterForm = () => {
 
   return (
     <>
+      {/* Close button */}
+      <div className="absolute right-0 top-0 bg-primary-500 text-white flex items-center justify-center cursor-pointer p-1">
+        <IoCloseOutline size={24} onClick={handleCloseModal} />
+      </div>
+
+      {/* Register form */}
       <form
         className={clsx("p-4", isShowOtpVerify && "hidden")}
         onSubmit={handleSubmit(onSubmit)}

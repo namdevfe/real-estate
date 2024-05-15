@@ -66,6 +66,24 @@ export const ADMIN_MENUS = [
       },
     ],
   },
+  {
+    id: 3,
+    icon: "/img/icon-home.svg",
+    title: "Properties",
+    type: MENU_TYPES.PARENT,
+    subMenus: [
+      {
+        id: 3,
+        title: "Create Property",
+        link: PATHS.CREATE_PROPERTY,
+      },
+      {
+        id: 4,
+        title: "Manage Properties",
+        link: PATHS.MANAGE_PROPERTY,
+      },
+    ],
+  },
 ];
 
 export const ACCOUNT_OPTIONS = [

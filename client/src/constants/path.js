@@ -1,5 +1,6 @@
 const ADMIN_PATH = "/admin";
 const PROPERTY_TYPE_PATH = ADMIN_PATH + "/property-type";
+const PROPERTY_PATH = ADMIN_PATH + "/property";
 
 export const PATHS = {
   // Public path
@@ -16,6 +17,8 @@ export const PATHS = {
   DASHBOARD: ADMIN_PATH,
   CREATE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/create",
   MANAGE_PROPERTY_TYPE: PROPERTY_TYPE_PATH + "/manage",
+  CREATE_PROPERTY: PROPERTY_PATH + "/create",
+  MANAGE_PROPERTY: PROPERTY_PATH + "/manage",
 
   // User path
   PROFILE: "/profile",
